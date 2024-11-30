@@ -24,7 +24,7 @@ const schema: ZodType<FormData> = z.object({
     .min(8, { message: "min 8 char." }),
 });
 
-function Login() {
+function Login(props: { setLoggedIn: (status: boolean) => void }) {
   const navigate = useNavigate();
 
   const {
@@ -41,6 +41,7 @@ function Login() {
     } else {
       alert("invalid email or password");
     }
+    props.setLoggedIn(true);
     return data;
   };
 
@@ -68,28 +69,30 @@ function Login() {
                   Email address
                 </h3>
                 <div className="w-[full]">
-                  <img
-                    src={emailSvg}
-                    alt="emailSvg"
-                    className="absolute translate-y-[1.15rem] translate-x-[1rem] select-none"
-                  />
-                  <input
-                    {...register("email")}
-                    type="tel"
-                    id="email"
-                    autoComplete="email"
-                    placeholder="e.g.alex@email.com"
-                    maxLength={40}
-                    className={clsx(
-                      errors.email ? "border-[#FF3939]" : "border-[#D9D9D9]",
-                      "text-[1rem] leading-[1.5rem] font-[400] border-[0.0625rem] max-w-[24.75rem] w-full rounded-lg pl-[2.75rem] pr-[7rem] p-[0.75rem] outline-none"
+                  <div className="relative">
+                    <img
+                      src={emailSvg}
+                      alt="emailSvg"
+                      className="absolute translate-y-[1.15rem] translate-x-[1rem] select-none"
+                    />
+                    <input
+                      {...register("email")}
+                      type="tel"
+                      id="email"
+                      autoComplete="email"
+                      placeholder="e.g.alex@email.com"
+                      maxLength={40}
+                      className={clsx(
+                        errors.email ? "border-[#FF3939]" : "border-[#D9D9D9]",
+                        "text-[1rem] leading-[1.5rem] font-[400] border-[0.0625rem] max-w-[24.75rem] w-full rounded-lg pl-[2.75rem] pr-[7rem] p-[0.75rem] outline-none"
+                      )}
+                    />
+                    {errors.email && (
+                      <span className="text-[0.7rem] leading-[1rem] font-[400] text-[#FF3939] absolute top-[1rem] right-[1rem]">
+                        {errors.email?.message}
+                      </span>
                     )}
-                  />
-                  {errors.email && (
-                    <span className="text-[0.7rem] leading-[1rem] font-[400] text-[#FF3939] absolute translate-x-[-6.5rem] translate-y-[1.2rem]">
-                      {errors.email?.message}
-                    </span>
-                  )}
+                  </div>
                 </div>
               </div>
               <div className="flex flex-col gap-[0.25rem] w-full">
@@ -97,27 +100,31 @@ function Login() {
                   Password
                 </h3>
                 <div className="w-[full]">
-                  <img
-                    src={passwordSvg}
-                    alt="passwordSvg"
-                    className="absolute translate-y-[1.15rem] translate-x-[1rem] select-none"
-                  />
-                  <input
-                    {...register("password")}
-                    type="text"
-                    id="password"
-                    placeholder="Enter your password"
-                    maxLength={60}
-                    className={clsx(
-                      errors.password ? "border-[#FF3939]" : "border-[#D9D9D9]",
-                      "text-[1rem] leading-[1.5rem] font-[400] border-[0.0625rem] max-w-[24.75rem] w-full rounded-lg pl-[2.75rem] pr-[7rem] p-[0.75rem] outline-none"
+                  <div className="relative">
+                    <img
+                      src={passwordSvg}
+                      alt="passwordSvg"
+                      className="absolute translate-y-[1.15rem] translate-x-[1rem] select-none"
+                    />
+                    <input
+                      {...register("password")}
+                      type="password"
+                      id="password"
+                      placeholder="Enter your password"
+                      maxLength={60}
+                      className={clsx(
+                        errors.password
+                          ? "border-[#FF3939]"
+                          : "border-[#D9D9D9]",
+                        "text-[1rem] leading-[1.5rem] font-[400] border-[0.0625rem] max-w-[24.75rem] w-full rounded-lg pl-[2.75rem] pr-[7rem] p-[0.75rem] outline-none"
+                      )}
+                    />
+                    {errors.password && (
+                      <span className="text-[0.7rem] leading-[1rem] font-[400] text-[#FF3939] absolute top-[1rem] right-[1rem]">
+                        {errors.password?.message}
+                      </span>
                     )}
-                  />
-                  {errors.password && (
-                    <span className="text-[0.7rem] leading-[1rem] font-[400] text-[#FF3939] absolute translate-x-[-6.5rem] translate-y-[1.2rem]">
-                      {errors.password?.message}
-                    </span>
-                  )}
+                  </div>
                 </div>
               </div>
               <button

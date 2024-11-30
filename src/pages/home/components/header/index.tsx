@@ -7,14 +7,28 @@ import ProfileSvg from "../../../../assets/icons/profileSvg";
 import previewSvg from "../../../../assets/images/icon-preview-header.svg";
 import clsx from "clsx";
 import { Link } from "react-router-dom";
+import { useContextHook } from "../../../../hooks/useContext";
 
 function Header(props: {
   changeOption: boolean;
   setChangeOption: (status: boolean) => void;
+  setLoggedIn: (status: boolean) => void;
 }) {
+  const { setLinks, setPersonalInfo } = useContextHook();
+
+  const handleReset = () => {
+    props.setLoggedIn(false);
+    localStorage.removeItem("formData");
+    localStorage.removeItem("links");
+    localStorage.removeItem("personalInfo");
+    setPersonalInfo({ firstName: "", lastName: "", email: "" });
+    localStorage.removeItem("previewUrl");
+    setLinks([]);
+  };
+
   return (
     <div className="md:rounded-lg flex items-center justify-between bg-[#FFF] py-[1rem] px-[1.5rem] rounded-b-lg mb-[1rem] max-w-[87rem] w-full">
-      <Link to="/">
+      <Link to="/" onClick={handleReset}>
         <button className="md:hidden  outline-none h-max">
           <img src={logo} alt="logo" />
         </button>
@@ -93,13 +107,16 @@ function Header(props: {
           </button>
         </div>
       )}
-      <button className="md:hidden px-[1.1rem] py-[0.62rem] border-[0.0625rem] border-[#633CFF] rounded-lg hover:bg-[#EFEBFF] transition-all duration-200">
-        <img src={previewSvg} alt="previewSvg" />
-      </button>
-
-      <button className="md:flex hidden text-[1rem] leading-[1.5rem] font-[600] text-[#633CFF] border-[0.0625rem] px-[1.1rem] py-[0.62rem] border-[#633CFF] rounded-lg hover:bg-[#EFEBFF] transition-all duration-200">
-        Preview
-      </button>
+      <Link to="/preview" className="md:hidden">
+        <button className="md:hidden px-[1.1rem] py-[0.62rem] border-[0.0625rem] border-[#633CFF] rounded-lg hover:bg-[#EFEBFF] transition-all duration-200">
+          <img src={previewSvg} alt="previewSvg" />
+        </button>
+      </Link>
+      <Link to="/preview" className="hidden md:flex">
+        <button className="md:flex hidden text-[1rem] leading-[1.5rem] font-[600] text-[#633CFF] border-[0.0625rem] px-[1.1rem] py-[0.62rem] border-[#633CFF] rounded-lg hover:bg-[#EFEBFF] transition-all duration-200">
+          Preview
+        </button>
+      </Link>
     </div>
   );
 }

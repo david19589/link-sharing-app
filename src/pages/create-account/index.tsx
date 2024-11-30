@@ -71,28 +71,30 @@ function CreateAccount() {
                   Email address
                 </h3>
                 <div className="w-[full]">
-                  <img
-                    src={emailSvg}
-                    alt="emailSvg"
-                    className="absolute translate-y-[1.15rem] translate-x-[1rem] select-none"
-                  />
-                  <input
-                    {...register("email")}
-                    type="tel"
-                    id="email-register"
-                    autoComplete="email-register"
-                    placeholder="e.g.alex@email.com"
-                    maxLength={40}
-                    className={clsx(
-                      errors.email ? "border-[#FF3939]" : "border-[#D9D9D9]",
-                      "text-[1rem] leading-[1.5rem] font-[400] border-[0.0625rem] max-w-[24.75rem] w-full rounded-lg pl-[2.75rem] pr-[7rem] p-[0.75rem] outline-none"
+                  <div className="relative">
+                    <img
+                      src={emailSvg}
+                      alt="emailSvg"
+                      className="absolute translate-y-[1.15rem] translate-x-[1rem] select-none"
+                    />
+                    <input
+                      {...register("email")}
+                      type="tel"
+                      id="email-register"
+                      autoComplete="email-register"
+                      placeholder="e.g.alex@email.com"
+                      maxLength={40}
+                      className={clsx(
+                        errors.email ? "border-[#FF3939]" : "border-[#D9D9D9]",
+                        "text-[1rem] leading-[1.5rem] font-[400] border-[0.0625rem] max-w-[24.75rem] w-full rounded-lg pl-[2.75rem] pr-[7rem] p-[0.75rem] outline-none"
+                      )}
+                    />
+                    {errors.email && (
+                      <span className="text-[0.7rem] leading-[1rem] font-[400] text-[#FF3939] absolute top-[1rem] right-[1rem]">
+                        {errors.email?.message}
+                      </span>
                     )}
-                  />
-                  {errors.email && (
-                    <span className="text-[0.7rem] leading-[1rem] font-[400] text-[#FF3939] absolute translate-x-[-6.5rem] translate-y-[1.2rem]">
-                      {errors.email?.message}
-                    </span>
-                  )}
+                  </div>
                 </div>
               </div>
               <div className="flex flex-col gap-[0.25rem] w-full">
@@ -100,27 +102,31 @@ function CreateAccount() {
                   Create password
                 </h3>
                 <div className="w-[full]">
-                  <img
-                    src={passwordSvg}
-                    alt="password"
-                    className="absolute translate-y-[1.15rem] translate-x-[1rem] select-none"
-                  />
-                  <input
-                    {...register("password")}
-                    type="password"
-                    id="password-register"
-                    placeholder="At least 8 characters"
-                    maxLength={60}
-                    className={clsx(
-                      errors.password ? "border-[#FF3939]" : "border-[#D9D9D9]",
-                      "text-[1rem] leading-[1.5rem] font-[400] border-[0.0625rem] max-w-[24.75rem] w-full rounded-lg pl-[2.75rem] pr-[7rem] p-[0.75rem] outline-none"
+                  <div className="relative">
+                    <img
+                      src={passwordSvg}
+                      alt="password"
+                      className="absolute translate-y-[1.15rem] translate-x-[1rem] select-none"
+                    />
+                    <input
+                      {...register("password")}
+                      type="password"
+                      id="password-register"
+                      placeholder="At least 8 characters"
+                      maxLength={60}
+                      className={clsx(
+                        errors.password
+                          ? "border-[#FF3939]"
+                          : "border-[#D9D9D9]",
+                        "text-[1rem] leading-[1.5rem] font-[400] border-[0.0625rem] max-w-[24.75rem] w-full rounded-lg pl-[2.75rem] pr-[7rem] p-[0.75rem] outline-none"
+                      )}
+                    />
+                    {errors.password && (
+                      <span className="text-[0.7rem] leading-[1rem] font-[400] text-[#FF3939] absolute top-[1rem] right-[1rem]">
+                        {errors.password?.message}
+                      </span>
                     )}
-                  />
-                  {errors.password && (
-                    <span className="text-[0.7rem] leading-[1rem] font-[400] text-[#FF3939] absolute translate-x-[-6.5rem] translate-y-[1.2rem]">
-                      {errors.password?.message}
-                    </span>
-                  )}
+                  </div>
                 </div>
               </div>
               <div className="flex flex-col gap-[0.25rem] w-full">
@@ -128,29 +134,31 @@ function CreateAccount() {
                   Confirm password
                 </h3>
                 <div className="w-[full]">
-                  <img
-                    src={passwordSvg}
-                    alt="password"
-                    className="absolute translate-y-[1.15rem] translate-x-[1rem] select-none"
-                  />
-                  <input
-                    {...register("confirmPassword")}
-                    type="password"
-                    id="confirm-password"
-                    placeholder="At least 8 characters"
-                    maxLength={60}
-                    className={clsx(
-                      errors.confirmPassword
-                        ? "border-[#FF3939]"
-                        : "border-[#D9D9D9]",
-                      "text-[1rem] leading-[1.5rem] font-[400] border-[0.0625rem] max-w-[24.75rem] w-full rounded-lg pl-[2.75rem] pr-[7rem] p-[0.75rem] outline-none"
+                  <div className="relative">
+                    <img
+                      src={passwordSvg}
+                      alt="password"
+                      className="absolute translate-y-[1.15rem] translate-x-[1rem] select-none"
+                    />
+                    <input
+                      {...register("confirmPassword")}
+                      type="password"
+                      id="confirm-password"
+                      placeholder="At least 8 characters"
+                      maxLength={60}
+                      className={clsx(
+                        errors.confirmPassword
+                          ? "border-[#FF3939]"
+                          : "border-[#D9D9D9]",
+                        "text-[1rem] leading-[1.5rem] font-[400] border-[0.0625rem] max-w-[24.75rem] w-full rounded-lg pl-[2.75rem] pr-[7rem] p-[0.75rem] outline-none"
+                      )}
+                    />
+                    {errors.confirmPassword && (
+                      <span className="text-[0.7rem] leading-[1rem] font-[400] text-[#FF3939] absolute top-[1rem] right-[1rem]">
+                        {errors.confirmPassword?.message}
+                      </span>
                     )}
-                  />
-                  {errors.confirmPassword && (
-                    <span className="text-[0.7rem] leading-[1rem] font-[400] text-[#FF3939] absolute translate-x-[-6.5rem] translate-y-[1.2rem]">
-                      {errors.confirmPassword?.message}
-                    </span>
-                  )}
+                  </div>
                 </div>
               </div>
               <p className="text-[0.75rem] leading-[1.125rem] font-[400] text-[#737373]">

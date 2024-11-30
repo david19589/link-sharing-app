@@ -1076,7 +1076,11 @@ export default {
       40: "40",
       50: "50",
     },
-    extend: {},
+    extend: {
+      boxShadow: {
+        "custom-purple-shadow": "0px 0px 15px 0px #633CFF40",
+      },
+    },
   },
   plugins: [],
 };
