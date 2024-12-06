@@ -17,7 +17,7 @@ const schema: ZodType<FormData> = z.object({
     .string()
     .nonempty({ message: "Can't be empty" })
     .email({ message: "invalid format." })
-    .max(40, { message: "max 40 char." }),
+    .max(50, { message: "max 50 char." }),
   password: z
     .string()
     .nonempty({ message: "Can't be empty" })
@@ -34,15 +34,26 @@ function Login(props: { setLoggedIn: (status: boolean) => void }) {
   } = useForm<FormData>({ resolver: zodResolver(schema) });
 
   const onSubmit = (data: FormData) => {
-    const storedEmail = localStorage.getItem("user_email");
-    const storedPassword = localStorage.getItem("user_password");
-    if (data.email === storedEmail && data.password === storedPassword) {
-      navigate("/home");
-    } else {
-      alert("invalid email or password");
+    const storedUsers = localStorage.getItem("users");
+
+    if (storedUsers) {
+      try {
+        const users = JSON.parse(storedUsers);
+        const user = users.find(
+          (u: { email: string; password: string }) =>
+            u.email === data.email && u.password === data.password
+        );
+
+        if (user) {
+          props.setLoggedIn(true);
+          navigate("/home");
+        } else {
+          alert("Invalid email or password");
+        }
+      } catch (err) {
+        console.error("Error parsing users from localStorage:", err);
+      }
     }
-    props.setLoggedIn(true);
-    return data;
   };
 
   return (
@@ -81,7 +92,7 @@ function Login(props: { setLoggedIn: (status: boolean) => void }) {
                       id="email"
                       autoComplete="email"
                       placeholder="e.g.alex@email.com"
-                      maxLength={40}
+                      maxLength={50}
                       className={clsx(
                         errors.email ? "border-[#FF3939]" : "border-[#D9D9D9]",
                         "text-[1rem] leading-[1.5rem] font-[400] border-[0.0625rem] max-w-[24.75rem] w-full rounded-lg pl-[2.75rem] pr-[7rem] p-[0.75rem] outline-none"

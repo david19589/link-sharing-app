@@ -10,7 +10,7 @@ import { v4 as uuid } from "uuid";
 function Preview() {
   const { links, platformIcons, message, setMessage, personalInfo } =
     useContextHook();
-  const { previewUrl } = ImageUpload();
+  const { profilePicture } = ImageUpload();
 
   const copyLinkToClipboard = async () => {
     const currentUrl = window.location.href;
@@ -50,7 +50,7 @@ function Preview() {
         </div>
         <div className="lg:max-w-[28rem] md:bg-[#FFF] md:rounded-xl md:shadow-custom-purple-shadow md:px-[3.5rem] md:py-[3rem] flex flex-col items-center max-w-[21.875rem] w-full">
           <img
-            src={previewUrl ? previewUrl : userVsg}
+            src={profilePicture ? profilePicture : userVsg}
             alt="previewUrl"
             className="w-[6.5rem] h-[6.5rem] object-cover rounded-full border-[0.25rem] border-[#633CFF] mb-[1.5rem] select-none"
           />
@@ -58,7 +58,7 @@ function Preview() {
             <h1 className="text-[2rem] leading-[3rem] font-[700] text-[#333333] mb-[0.5rem]">
               {personalInfo.firstName}
             </h1>
-            <h3 className="text-[1rem] leading-[1.5rem] font-[400] text-[#737373]">
+            <h3 className="text-[1rem] leading-[1.5rem] font-[400] text-[#737373] break-all">
               {personalInfo.email}
             </h3>
             <h2 className="text-[2rem] leading-[3rem] font-[700] text-[#333333] mb-[3.5rem]"></h2>

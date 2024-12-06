@@ -12,11 +12,14 @@ export function ImageUpload() {
 
       reader.onload = () => {
         const base64String = reader.result as string;
+        localStorage.removeItem("previewUrl");
         setPreviewUrl(base64String);
       };
       reader.readAsDataURL(selectedFile);
     }
   };
 
-  return { handleImage, previewUrl, setPreviewUrl };
+  const profilePicture = localStorage.getItem("previewUrl");
+
+  return { handleImage, previewUrl, profilePicture };
 }

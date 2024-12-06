@@ -1,6 +1,6 @@
 import { BrowserRouter } from "react-router-dom";
 import PageRoutes from "./routing/routes";
-import { Provider } from "./context/context";
+import { Provider } from "./context/context-provider";
 
 function App() {
   return (

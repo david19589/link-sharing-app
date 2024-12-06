@@ -6,16 +6,11 @@ import Preview from "../pages/preview";
 import { useEffect, useState } from "react";
 import SharedLink from "../pages/shared-link";
 
+const storedLoginInfo = localStorage.getItem("loginInfo");
+const checkLogIn = storedLoginInfo ? JSON.parse(storedLoginInfo) : false;
+
 function PageRoutes() {
-  const [loggedIn, setLoggedIn] = useState(() => {
-    try {
-      const storedLoginInfo = localStorage.getItem("loginInfo");
-      return storedLoginInfo ? JSON.parse(storedLoginInfo) : false;
-    } catch (err) {
-      console.error("Failed to parse loginInfo from localStorage:", err);
-      return false;
-    }
-  });
+  const [loggedIn, setLoggedIn] = useState(checkLogIn);
 
   useEffect(() => {
     localStorage.setItem("loginInfo", JSON.stringify(loggedIn));

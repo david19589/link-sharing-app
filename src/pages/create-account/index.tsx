@@ -19,7 +19,7 @@ const schema: ZodType<FormData> = z
       .string()
       .nonempty({ message: "Can't be empty" })
       .email({ message: "invalid format." })
-      .max(40, { message: "max 40 char." }),
+      .max(50, { message: "max 50 char." }),
     password: z
       .string()
       .nonempty({ message: "Can't be empty" })
@@ -41,8 +41,30 @@ function CreateAccount() {
   } = useForm<FormData>({ resolver: zodResolver(schema) });
 
   const onSubmit = (data: FormData) => {
-    localStorage.setItem("user_email", data.email);
-    localStorage.setItem("user_password", data.password);
+    const newUser = {
+      email: data.email,
+      password: data.password,
+    };
+
+    try {
+      const storedUsers = localStorage.getItem("users");
+      const users = storedUsers ? JSON.parse(storedUsers) : [];
+      console.log(users);
+      const emailExists = users.some(
+        (user: { email: string }) => user.email === data.email
+      );
+
+      if (emailExists) {
+        alert("This email is already registered!");
+        return;
+      }
+      users.push(newUser);
+
+      localStorage.setItem("users", JSON.stringify(users));
+    } catch (err) {
+      console.error("Error updating users in localStorage:", err);
+    }
+
     navigate("/");
     return data;
   };
@@ -83,7 +105,7 @@ function CreateAccount() {
                       id="email-register"
                       autoComplete="email-register"
                       placeholder="e.g.alex@email.com"
-                      maxLength={40}
+                      maxLength={50}
                       className={clsx(
                         errors.email ? "border-[#FF3939]" : "border-[#D9D9D9]",
                         "text-[1rem] leading-[1.5rem] font-[400] border-[0.0625rem] max-w-[24.75rem] w-full rounded-lg pl-[2.75rem] pr-[7rem] p-[0.75rem] outline-none"

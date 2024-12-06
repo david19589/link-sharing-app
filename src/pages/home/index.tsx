@@ -11,11 +11,15 @@ import clsx from "clsx";
 function Home(props: { setLoggedIn: (status: boolean) => void }) {
   const [changeOption, setChangeOption] = useState(false);
   const { links, platformIcons, personalInfo } = useContextHook();
-  const { previewUrl } = ImageUpload();
+  const { profilePicture } = ImageUpload();
 
   return (
     <div className="md:p-[1.5rem] flex flex-col items-center">
-      <Header changeOption={changeOption} setChangeOption={setChangeOption} setLoggedIn={props.setLoggedIn}/>
+      <Header
+        changeOption={changeOption}
+        setChangeOption={setChangeOption}
+        setLoggedIn={props.setLoggedIn}
+      />
       <div className="lg:gap-[1.5rem] flex justify-center max-w-[90rem] w-full">
         <div className="lg:flex hidden relative">
           {links.length > 0 && (
@@ -31,15 +35,15 @@ function Home(props: { setLoggedIn: (status: boolean) => void }) {
           />
           <div
             className={clsx(
-              previewUrl
+              profilePicture
                 ? "top-[6.5rem] left-[9.5rem]"
                 : "top-[14rem] left-[9.5rem]",
               "flex flex-col items-center absolute w-[16rem]"
             )}
           >
-            {previewUrl && (
+            {profilePicture && (
               <img
-                src={previewUrl}
+                src={profilePicture?.toString()}
                 alt="previewUrl"
                 className="w-[6.5rem] h-[6.5rem] object-cover rounded-full border-[0.25rem] border-[#633CFF] mb-[0.99rem] select-none"
               />
@@ -47,7 +51,7 @@ function Home(props: { setLoggedIn: (status: boolean) => void }) {
             <h1 className="text-[1.125rem] leading-[1.7rem] font-[700] text-[#333333] mb-[0.15rem]">
               {personalInfo?.firstName}
             </h1>
-            <h3 className="text-[0.9rem] leading-[1.35rem] font-[400] text-[#737373]">
+            <h3 className="text-[0.9rem] leading-[1.35rem] font-[400] text-[#737373] break-all">
               {personalInfo?.email}
             </h3>
           </div>

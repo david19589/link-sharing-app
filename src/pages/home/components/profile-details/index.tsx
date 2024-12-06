@@ -9,32 +9,36 @@ import { useRef } from "react";
 import { useContextHook } from "../../../../hooks/useContext";
 
 type FormData = {
-  email: string;
+  email?: string;
   firstName: string;
   lastName: string;
 };
 
 const schema: ZodType<FormData> = z.object({
   email: z
-    .string()
-    .nonempty({ message: "Can't be empty" })
-    .email({ message: "invalid format." })
-    .max(20, { message: "max 20 char." }),
+    .union([
+      z
+        .string()
+        .email({ message: "invalid format." })
+        .max(50, { message: "max 50 char." }),
+      z.literal(""),
+    ])
+    .optional(),
   firstName: z
     .string()
-    .nonempty({ message: "Can't be empty" })
-    .max(12, { message: "max 12 char." }),
+    .max(30, { message: "max 30 char." })
+    .min(1, { message: "cant be empty" }),
   lastName: z
     .string()
-    .nonempty({ message: "Can't be empty" })
-    .max(20, { message: "max 20 char." }),
+    .max(40, { message: "max 40 char." })
+    .min(1, { message: "cant be empty" }),
 });
 
 function ProfileDetails() {
   const { message, setMessage, personalInfo, setPersonalInfo } =
     useContextHook();
 
-  const { handleImage, previewUrl, setPreviewUrl } = ImageUpload();
+  const { handleImage, previewUrl } = ImageUpload();
 
   const inputRef = useRef<HTMLInputElement | null>(null);
 
@@ -56,7 +60,6 @@ function ProfileDetails() {
   const onSubmit = (data: FormData) => {
     if (previewUrl) {
       localStorage.setItem("previewUrl", previewUrl);
-      setPreviewUrl(previewUrl);
     }
 
     setPersonalInfo(data);
@@ -91,7 +94,7 @@ function ProfileDetails() {
             }
             className={clsx(
               previewUrl && "bg-cover bg-center bg-no-repeat",
-              "md:mb-0 flex flex-col items-center gap-[0.9rem] py-[2.25rem] px-[1.25rem] bg-[#EFEBFF] rounded-md cursor-pointer mb-[1.5rem]"
+              "md:mb-0 flex flex-col items-center gap-[0.9rem] pt-[2.701rem] pb-[2.7rem] px-[1.25rem] bg-[#EFEBFF] rounded-md cursor-pointer mb-[1.5rem] max-w-[10rem] w-full"
             )}
           >
             <input
@@ -100,14 +103,21 @@ function ProfileDetails() {
               onChange={handleImage}
               ref={inputRef}
             />
-            <img
-              className="select-none"
-              src={uploadImageSvg}
-              alt="uploadImageSvg"
-            />
-            <h2 className="text-[1rem] leading-[1.25rem] font-[700] text-[#633CFF] text-center select-none">
-              + Upload Image
-            </h2>
+            <div
+              className={clsx(
+                previewUrl && "opacity-0",
+                "flex flex-col items-center"
+              )}
+            >
+              <img
+                className="select-none"
+                src={uploadImageSvg}
+                alt="uploadImageSvg"
+              />
+              <h2 className="text-[1rem] leading-[1.25rem] font-[700] text-[#633CFF] text-center select-none">
+                + Upload Image
+              </h2>
+            </div>
           </div>
           <p className="md:max-w-[8rem] text-[0.75rem] leading-[1.125rem] font-[400] text-[#737373]">
             Image must be below 1024x1024px. Use PNG or JPG format.
@@ -127,7 +137,7 @@ function ProfileDetails() {
               <input
                 {...register("firstName")}
                 type="tel"
-                maxLength={12}
+                maxLength={30}
                 id="first-name"
                 placeholder="Ben"
                 autoComplete="first-name"
@@ -148,7 +158,7 @@ function ProfileDetails() {
               <input
                 {...register("lastName")}
                 type="tel"
-                maxLength={20}
+                maxLength={40}
                 id="last-name"
                 placeholder="Wright"
                 className="text-[1rem] leading-[1.5rem] font-[400] border-[0.0625rem] max-w-[27rem] w-full rounded-lg pr-[7rem] p-[0.75rem] outline-none hover:shadow-custom-purple-shadow hover:border-[#633CFF]"
@@ -168,7 +178,7 @@ function ProfileDetails() {
               <input
                 {...register("email")}
                 type="tel"
-                maxLength={20}
+                maxLength={50}
                 id="email"
                 placeholder="ben@example.com"
                 autoComplete="email"
