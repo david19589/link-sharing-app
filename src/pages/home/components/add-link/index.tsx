@@ -13,7 +13,7 @@ import linkSvg from "../../../../assets/images/icon-link.svg";
 import { useMemo, useState } from "react";
 import clsx from "clsx";
 import { FieldArrayWithId, useFormContext } from "react-hook-form";
-import { PlatformType } from "../../../../context/context";
+import { PlatformType } from "../../../../context/context-provider";
 
 function AddLink(props: {
   field: FieldArrayWithId;
